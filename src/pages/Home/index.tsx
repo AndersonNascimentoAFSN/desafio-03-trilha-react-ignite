@@ -26,7 +26,6 @@ const Home = (): JSX.Element => {
   const { addProduct, cart } = useCart();
 
   const cartItemsAmount = cart.reduce((sumAmount, product) => {
-    // TODO
     const newSumAmount = { ...sumAmount };
     newSumAmount[product.id] = product.amount;
     return newSumAmount;
@@ -34,7 +33,6 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     async function loadProducts() {
-      // TODO
       const { data: products } = await api.get<Product[]>("/products");
 
       if (Array.isArray(products) && products.length > 0) {
@@ -67,7 +65,6 @@ const Home = (): JSX.Element => {
             >
               <div data-testid="cart-product-quantity">
                 <MdAddShoppingCart size={16} color="#FFF" />
-                {/* {cartItemsAmount[product.id] || 0} 2 */}
                 {cartItemsAmount[product.id] || 0}
               </div>
               <span>ADICIONAR AO CARRINHO</span>
