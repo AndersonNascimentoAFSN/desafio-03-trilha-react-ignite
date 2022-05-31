@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MdAddShoppingCart } from "react-icons/md";
 
 import { ProductList } from "./styles";
-import { api } from "../../services/api";
+import { getProducts } from "../../services/api";
 import { formatPrice } from "../../util/format";
 import { useCart } from "../../hooks/useCart";
 
@@ -33,7 +33,7 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     async function loadProducts() {
-      const { data: products } = await api.get<Product[]>("/products");
+      const products = await getProducts();
 
       if (Array.isArray(products) && products.length > 0) {
         const productsFormatted = products.map((product) => ({

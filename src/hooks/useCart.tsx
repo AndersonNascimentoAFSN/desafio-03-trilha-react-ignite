@@ -7,8 +7,8 @@ import {
   useState,
 } from "react";
 import { toast } from "react-toastify";
-import { api } from "../services/api";
-import { Product, Stock } from "../types";
+import { getProduct, getProductStock } from "../services/api";
+import { Product } from "../types";
 
 interface CartProviderProps {
   children: ReactNode;
@@ -58,7 +58,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       const productExists = updatedCart.find(
         (product) => product.id === productId
       );
-      const { data: stock } = await api.get<Stock>(`/stock/${productId}`);
+      const stock = await getProductStock(productId);
 
       const stockAmount = stock.amount;
       const currentAmount = productExists ? productExists.amount : 0;
@@ -72,7 +72,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       if (productExists) {
         productExists.amount = amount;
       } else {
-        const { data: product } = await api.get("/products/" + productId);
+        const product = await getProduct(productId);
         const newProduct = {
           ...product,
           amount: 1,
@@ -113,7 +113,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
         return;
       }
 
-      const { data: stock } = await api.get<Stock>(`/stock/${productId}`);
+      const stock = await getProductStock(productId);
       const stockAmount = stock.amount;
 
       if (amount > stockAmount) {
